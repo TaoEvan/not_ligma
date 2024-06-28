@@ -12,3 +12,6 @@ position = Vector2(275, 383)
 
 [node name="ground" parent="." instance=ExtResource("2_kapxe")]
 position = Vector2(10, 627)
+
+[node name="player2" parent="." instance=ExtResource("1_dp5v7")]
+position = Vector2(808, 373)
