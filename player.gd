@@ -38,7 +38,7 @@ func _process(delta):
 			$AnimatedSprite2D.animation = 'special'
 			
 		curr_state = $AnimatedSprite2D.animation
-		rpc("remote_set_animation", curr_state)
+		remote_set_animation.rpc(curr_state)
 	
 	# End of frame call to update the current state of the character
 		
@@ -58,7 +58,7 @@ func _physics_process(delta):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
 		move_and_slide()
-		rpc("remote_set_position", global_position)
+		remote_set_position.rpc(global_position)
 		
 @rpc("unreliable")
 func remote_set_position(authority_position):
