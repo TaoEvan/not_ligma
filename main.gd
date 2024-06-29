@@ -5,9 +5,8 @@ var peer
 var ip_address
 
 const PORT = 8000
-#const ADDRESS = "127.0.0.1"
-const ADDRESS = '192.168.192.77'
-var h = load("res://hitbox.tscn")
+
+const ADDRESS = "127.0.0.1"
 
 func _ready():
 	peer = ENetMultiplayerPeer.new()
@@ -35,7 +34,12 @@ func _ready():
 func _on_host_pressed():
 	peer.create_server(PORT)
 	multiplayer.multiplayer_peer = peer
-	peer.peer_connected.connect(func(id): print("peer is connected"))
+	peer.peer_connected.connect(
+		func(id): 
+			print("peer is connected")
+			$player2.set_multiplayer_authority(id)
+	)
+	$player1.set_multiplayer_authority(1)
 	print("ok")
 	print(IP.get_local_addresses())
 	
@@ -43,6 +47,7 @@ func _on_host_pressed():
 func _on_join_pressed():
 	peer.create_client(ADDRESS, PORT)
 	multiplayer.multiplayer_peer = peer
+	$player2.set_multiplayer_authority(multiplayer.get_unique_id())
 	print("ok")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

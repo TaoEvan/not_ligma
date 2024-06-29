@@ -14,7 +14,7 @@ position = Vector2(275, 383)
 position = Vector2(10, 627)
 
 [node name="player2" parent="." instance=ExtResource("1_dp5v7")]
-position = Vector2(808, 373)
+position = Vector2(919, 399)
 
 [node name="MainMenu" type="VBoxContainer" parent="."]
 anchors_preset = -1
@@ -22,10 +22,10 @@ anchor_left = 0.421
 anchor_top = 0.37
 anchor_right = 0.421
 anchor_bottom = 0.37
-offset_left = 158.008
-offset_top = 99.24
-offset_right = 301.008
-offset_bottom = 157.24
+offset_left = 506.008
+offset_top = -219.76
+offset_right = 649.008
+offset_bottom = -153.76
 alignment = 1
 
 [node name="Join" type="Button" parent="MainMenu"]
