@@ -57,10 +57,12 @@ size = Vector2(128, 126)
 script = ExtResource("1_uulib")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
 position = Vector2(-3.8147e-06, 0.500002)
 scale = Vector2(4, 4.03125)
 sprite_frames = SubResource("SpriteFrames_qyfn5")
 animation = &"stand"
 
 [node name="StandingCollision" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_gxaie")

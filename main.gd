@@ -5,7 +5,9 @@ var peer
 var ip_address
 
 const PORT = 8000
-const ADDRESS = "127.0.0.1"
+#const ADDRESS = "127.0.0.1"
+const ADDRESS = '192.168.192.77'
+var h = load("res://hitbox.tscn")
 
 func _ready():
 	peer = ENetMultiplayerPeer.new()
@@ -45,6 +47,4 @@ func _on_join_pressed():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_just_pressed("left_mouse"):
-		var new_player = player.instantiate()
-		add_child(new_player)
+	pass
