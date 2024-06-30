@@ -1,17 +1,56 @@
-[gd_scene load_steps=9 format=3 uid="uid://2vqgcijrtaxr"]
+[gd_scene load_steps=18 format=3 uid="uid://2vqgcijrtaxr"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_uulib"]
-[ext_resource type="Texture2D" uid="uid://como3m8nf60qg" path="res://crouch.png" id="2_xby7l"]
-[ext_resource type="Texture2D" uid="uid://bpk7rpqya3w3j" path="res://standing.png" id="3_d7nin"]
-[ext_resource type="Texture2D" uid="uid://d04d4og5nlm3n" path="res://heavy.png" id="3_o35e6"]
-[ext_resource type="Texture2D" uid="uid://o58ifxx4tvge" path="res://light.png" id="4_lujkg"]
+[ext_resource type="Texture2D" uid="uid://07gifebcaptd" path="res://player-sprite-sheet.png" id="2_ukosj"]
+[ext_resource type="Texture2D" uid="uid://dbiy76mqpies" path="res://player-sprite-sheet (1).png" id="3_h2xht"]
 [ext_resource type="Texture2D" uid="uid://qtsu38ldsggw" path="res://special.png" id="5_ply48"]
+[ext_resource type="PackedScene" uid="uid://dvlj3hhv6yud3" path="res://hurtbox.tscn" id="7_3tbaw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0otnj"]
+atlas = ExtResource("2_ukosj")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ucbfc"]
+atlas = ExtResource("2_ukosj")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8g2ro"]
+atlas = ExtResource("2_ukosj")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4wfn"]
+atlas = ExtResource("2_ukosj")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2kml"]
+atlas = ExtResource("2_ukosj")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcwfy"]
+atlas = ExtResource("2_ukosj")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymiah"]
+atlas = ExtResource("3_h2xht")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hisvj"]
+atlas = ExtResource("2_ukosj")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6003l"]
+atlas = ExtResource("2_ukosj")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kkxc"]
+atlas = ExtResource("2_ukosj")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qyfn5"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_xby7l")
+"texture": SubResource("AtlasTexture_0otnj")
 }],
 "loop": true,
 "name": &"crouch",
@@ -19,19 +58,42 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_o35e6")
+"texture": SubResource("AtlasTexture_ucbfc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8g2ro")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4wfn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2kml")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcwfy")
 }],
 "loop": true,
 "name": &"heavy",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ymiah")
+}],
+"loop": true,
+"name": &"hitstun",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_lujkg")
+"texture": SubResource("AtlasTexture_hisvj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6003l")
 }],
 "loop": true,
 "name": &"light",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -43,7 +105,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_d7nin")
+"texture": SubResource("AtlasTexture_5kkxc")
 }],
 "loop": true,
 "name": &"stand",
@@ -51,16 +113,30 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gxaie"]
-size = Vector2(128, 126)
+size = Vector2(28, 59)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+collision_mask = 2
 script = ExtResource("1_uulib")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 position = Vector2(-3.8147e-06, 0.500002)
 scale = Vector2(4, 4.03125)
 sprite_frames = SubResource("SpriteFrames_qyfn5")
 animation = &"stand"
 
 [node name="StandingCollision" type="CollisionShape2D" parent="."]
+position = Vector2(-4, 36.5)
 shape = SubResource("RectangleShape2D_gxaie")
+
+[node name="Hurtbox" parent="." instance=ExtResource("7_3tbaw")]
+monitorable = false
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2(-3.5, 21)
+
+[connection signal="animation_looped" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_looped"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+
+[editable path="Hurtbox"]
