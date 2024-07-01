@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://dvlj3hhv6yud3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ffi2"]
-size = Vector2(33, 90)
+size = Vector2(97, 267)
 
 [node name="Hurtbox" type="Area2D"]
 modulate = Color(0.611765, 0.658824, 0.192157, 1)
