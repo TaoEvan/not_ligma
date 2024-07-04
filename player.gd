@@ -9,9 +9,9 @@ var facing = 'right'
 var who = '1'
 @export var hp = 1000
 @onready var curr_state = $AnimatedSprite2D.animation
-var loops_to_cancel = ['light', 'heavy', 'special']
-var cancellable_attacks = ['heavy']
-var immutable_states = ['light', 'heavy', 'special', 'hitstun']
+var loops_to_cancel = ['light_s', 'heavy_s', 'special_s', 'light_c', 'heavy_c', 'special_c']
+var cancellable_attacks = ['heavy_s']
+var immutable_states = ['light_s', 'heavy_s', 'special_s', 'light_c', 'heavy_c', 'special_c', 'hitstun']
 var hitbox = null
 var hitboxes = []
 var load_hitbox = load("res://hitbox.tscn")
@@ -45,26 +45,39 @@ func _process(delta):
 				$AnimatedSprite2D.play('stand')
 				new_anim = true
 			
-			if Input.is_action_just_pressed("light"):
-				$AnimatedSprite2D.play('light')
+			if Input.is_action_just_pressed("light") and curr_state == 'stand':
+				$AnimatedSprite2D.play('light_s')
 				print('light')
 				new_anim = true
 				make_hitbox(1, 1, 0.9, 0.3, 55, 40, 0, 18, 10, 75, 0)
 				velocity.x = 0
-			if Input.is_action_just_pressed("heavy"):
-				$AnimatedSprite2D.play('heavy')
+			if Input.is_action_just_pressed("light") and curr_state == 'crouch':
+				$AnimatedSprite2D.play('light_c')
+				new_anim = true
+				make_hitbox(1, 1, 0.65, 0.3, 35, 180, 0, 18, 10, 50, 0)
+				velocity.x = 0
+			if Input.is_action_just_pressed("heavy") and curr_state == 'stand':
+				$AnimatedSprite2D.play('heavy_s')
 				print('heavy')
 				new_anim = true
 				make_hitbox(1, 1, 0.5, 0.3, 30, 100, 0, 25, 15, 0, -300)
-				make_hitbox(2, 2, 0.7, 0.4, 60, 70, 0, 40, 20, -100, -300)
+				make_hitbox(2, 2, 0.7, 0.4, 60, 70, 0, 40, 20, 100, -300)
 				velocity.x = 0
-			if Input.is_action_just_pressed("special"):
+			if Input.is_action_just_pressed("heavy") and curr_state == 'crouch':
+				$AnimatedSprite2D.play('heavy_c')
+				print('heavy')
 				new_anim = true
-				$AnimatedSprite2D.play('special')
+				make_hitbox(1, 1, 0.5, 0.3, 60, 165, 0, 25, 15, 10, -50)
+				make_hitbox(3, 3, 0.6, 0.4, 70, 165, 0, 40, 20, 50, -300)
+				velocity.x = 0
+			#if Input.is_action_just_pressed("special") and curr_state == 'stand':
+				#new_anim = true
+				#$AnimatedSprite2D.play('special')
 		if curr_state in cancellable_attacks or curr_state not in immutable_states:
-			if Input.is_action_just_pressed("special"):
+			if Input.is_action_just_pressed("special") and (curr_state == 'crouching' or Input.is_action_pressed("down")):
 				new_anim = true
-				$AnimatedSprite2D.play('special')
+				$AnimatedSprite2D.play('special_c')
+				make_hitbox(3, 3, 0.3, 1, 100, 50, 0, 20, 30, 10, 500)
 			
 		if curr_stun > 0:
 			# $AnimatedSprite2D.play('hitstun')
@@ -155,7 +168,13 @@ func remove_hitbox(hitbox):
 
 func _on_animated_sprite_2d_animation_looped():
 	if $AnimatedSprite2D.animation in loops_to_cancel:
-		$AnimatedSprite2D.animation = 'stand'
+		if Input.is_action_pressed("down"):
+			$AnimatedSprite2D.play('crouch')
+		else:
+			$AnimatedSprite2D.play('stand')
+		
+#func _on_animated_sprite_2d_animation_finished():
+		#$AnimatedSprite2D.animation = 'stand'
 		
 		
 func hitbox_manager(curr_frame: int):
@@ -172,7 +191,3 @@ func hitbox_manager(curr_frame: int):
 		elif curr_state in ['stand', 'crouch', 'hitstun']:
 			remove_hitbox(hitbox)
 			hitbox = null
-		
-		
-
-
